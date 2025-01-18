@@ -21,5 +21,15 @@ services:
             - capabilities: [gpu]
     runtime: nvidia
 
+  django-tell-me-story:
+    container_name: django-tell-me-story
+    build: 
+      context: ./..
+      dockerfile: environment/django/Dockerfile
+    ports:
+      - "8001:8000"
+    networks:
+      - tell-me-story
+
 networks:
   tell-me-story: {}
