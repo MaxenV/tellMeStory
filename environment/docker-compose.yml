@@ -1,0 +1,25 @@
+services:
+  ollama:
+    container_name: ollama
+    build:
+      context: .
+      dockerfile: ollama/Dockerfile
+      args:
+        LLM_MODEL: ${LLM_MODEL} 
+    environment:
+      - LLM_MODEL=${LLM_MODEL}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    ports:
+      - "22545:11434"
+    networks:
+      - tell-me-story
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    runtime: nvidia
+
+networks:
+  tell-me-story: {}
