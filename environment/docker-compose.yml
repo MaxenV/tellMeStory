@@ -1,11 +1,7 @@
 services:
   ollama:
     container_name: ollama
-    build:
-      context: .
-      dockerfile: ollama/Dockerfile
-      args:
-        LLM_MODEL: ${LLM_MODEL} 
+    image: ollama/ollama:0.5.7
     environment:
       - LLM_MODEL=${LLM_MODEL}
       - NVIDIA_VISIBLE_DEVICES=all
@@ -14,6 +10,9 @@ services:
       - "22545:11434"
     networks:
       - tell-me-story
+    volumes:
+      - ./ollama/entrypoint.sh:/entrypoint.sh
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
     deploy:
       resources:
         reservations:
