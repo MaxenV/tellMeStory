@@ -14,3 +14,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build . --file environment/django/Dockerfile --tag tell-me-story:$(date +%s)
+    - name: Test image
+      run: docker run -p 8001:8000
+    - name: Test page
+      run: curl localhost:8081
