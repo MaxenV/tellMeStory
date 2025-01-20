@@ -1,0 +1,29 @@
+name: Test app container
+
+on:
+  push:
+    branches: [ "test" ]
+  pull_request:
+    branches: [ "test" ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select branch to test'
+        required: true
+        default: 'development'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file environment/django/Dockerfile --tag tell-me-story:test
+    - name: Run the Docker container
+      run: docker run -d -p 8001:8000 --name tell-me-story-container tell-me-story:test
+    - name: Wait for the container to be ready
+      run: sleep 10
+    - name: Test page
+      run: curl --fail http://localhost:8001 
+    - name: Stop and remove the container
+      run: docker stop tell-me-story-container && docker rm tell-me-story-container
