@@ -1,0 +1,27 @@
+<!-- filepath: /home/maxen/Desktop/Nauka/tellMeStory/src/tellMeStoryBackend/tellMeStory/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tell Me a Story</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/chatPage.css' %}" />
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon" />
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <div class="chat-container">
+      <div class="chat-history">
+        <div class="user_message message">My question for chat</div>
+        <div class="chat_message message">Chat response for my question</div>
+      </div>
+      <div class="chat-input">
+        <input type="text" placeholder="Type your message here..." />
+        <button type="button">Send</button>
+      </div>
+    </div>
+  </body>
+</html>
