@@ -3,7 +3,7 @@ FROM library/python:3.12.8-slim
 COPY ./src/tellMeStoryBackend /app/tellMeStoryBackend
 WORKDIR /app/tellMeStoryBackend
 
-RUN pip install django==5.1.5 ollama==0.4.6
+RUN pip install django==5.1.5 ollama==0.4.6 requests==2.32.3
 RUN python3 manage.py migrate
 
 EXPOSE 8000
