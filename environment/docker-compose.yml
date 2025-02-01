@@ -1,11 +1,8 @@
 services:
-  ollama:
-    container_name: ollama
+  ollama-base:
     image: ollama/ollama:0.5.7
     environment:
       - LLM_MODEL=${LLM_MODEL}
-      - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     ports:
       - "22545:11434"
     networks:
@@ -13,12 +10,25 @@ services:
     volumes:
       - ./ollama/entrypoint.sh:/entrypoint.sh
     entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+
+  ollama-gpu:
+    extends:
+      service: ollama-base
+    container_name: ollama
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     deploy:
       resources:
         reservations:
           devices:
             - capabilities: [gpu]
     runtime: nvidia
+
+  ollama-no-gpu:
+    extends:
+      service: ollama-base
+    container_name: ollama
 
   django-tell-me-story:
     container_name: django-tell-me-story
