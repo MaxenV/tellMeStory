@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tell Me a Story</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/header.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/homePage.css' %}" />
+    <link rel="icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon" />
+  </head>
+  <body>
+    {% include 'header.html' %}
+    <main class="home-container">
+      <article class="short-description">
+        <h1>About app</h1>
+        <section>
+          <p>This app will help you learn English by telling stories and chatting with LLM.</p>
+        </section>
+      </article>
+      <article class="models">
+        <section>
+          <h1>Available models</h1>
+          <p>Choose one of the available models below</p>
+        </section>
+        <div class="model-list">
+          <a href="chat?name=default" class="model">
+            <div class="name">
+              <div>Name:</div>
+              <div>default</div>
+            </div>
+          </a>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>
