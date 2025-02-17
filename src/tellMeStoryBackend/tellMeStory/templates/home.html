@@ -24,14 +24,20 @@
           <h1>Available models</h1>
           <p>Choose one of the available models below</p>
         </section>
-        <div class="model-list">
-          <a href="chat?name=default" class="model">
-            <div class="name">
-              <div>Name:</div>
-              <div>default</div>
-            </div>
-          </a>
-        </div>
+        {% if status == 200 %}
+          <div class="model-list">
+            {% for model_name in model_names %}
+              <a href="chat?name=default" class="model">
+                <div class="name">
+                  <div>Name:</div>
+                  <div>{{ model_name }}</div>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="test">{{ message }}</div>
+        {% endif %}
       </article>
     </main>
   </body>
