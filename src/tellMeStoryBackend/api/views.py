@@ -10,12 +10,11 @@ from . import ollama_service
 
 class PresentView(View):
     def get(self, request, *args, **kwargs):
-        if ollama_service.server_is_present():
-            output = "Ollama is running"
+        output = ollama_service.server_is_present()
+        if type(output) is Exception:
+            return JsonResponse({"error": output.args})
         else:
-            output = "Ollama server is not running"
-
-        return JsonResponse({"present": output})
+            return JsonResponse({"present": output})
 
 
 class ModelAllView(View):
@@ -60,18 +59,13 @@ class ModelStopView(View):
 
 class ResponseView(View):
     def get(self, request, *args, **kwargs):
-        model, content, role = self._get_request_attributes(request)
+        model = request.GET.get("model")
+        content = request.GET.get("content")
+        role = request.GET.get("role")
+        if not model or not content:
+            return JsonResponse({"error": "Request should contain model and content"})
         response = ollama_service.send_request(model, content, role)
         if type(response) is Exception:
             return JsonResponse({"error": response.args})
         else:
             return JsonResponse({"response": response})
-
-    def _get_request_attributes(self, request):
-        loads = json.loads(request.body)
-        if not {"model", "content"}.issubset(loads):
-            return JsonResponse({"error": "Request should contain model and content"})
-        model = loads["model"]
-        content = loads["content"]
-        role = loads["role"] if "role" in loads.keys() else None
-        return model, content, role

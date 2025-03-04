@@ -11,9 +11,9 @@ class OllamaApiService:
         try:
             response = requests.get(self.base_url, json={})
             if response.text == "Ollama is running":
-                return True
+                return response.text
             else:
-                return False
+                return Exception("Ollama server is not running")
         except requests.exceptions.RequestException:
             return Exception("Connection error")
 
